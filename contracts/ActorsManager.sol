@@ -26,9 +26,9 @@ contract ActorsManager is FunctionsClient {
 
     uint8 public constant ACTOR_TYPE_COUNT = 6;
     enum ActorType {
-        Farmer,
-        Processor,
-        Bottler,
+        RawMaterialSupplier,
+        RawProcessorId,
+        BatteryManufacturer,   
         Distributor,
         Retailer,
         Consumer
@@ -75,9 +75,9 @@ contract ActorsManager is FunctionsClient {
     constructor(address aclAddress, bytes32 _donId, address _donRouter, uint64 _donSubscriptionId)
         FunctionsClient(_donRouter)
     {
-        actors[0] = new Actor(aclAddress, "Farmer", "FG");
-        actors[1] = new Actor(aclAddress, "Processor", "PR");
-        actors[2] = new Actor(aclAddress, "Bottler", "BT");
+        actors[0] = new Actor(aclAddress, "RawMaterialSupplier", "RMS");
+        actors[1] = new Actor(aclAddress, "RawProcessorId", "RP");
+        actors[2] = new Actor(aclAddress, "BatteryManufacturer", "BM");
         actors[3] = new Actor(aclAddress, "Distributor", "DS");
         actors[4] = new Actor(aclAddress, "Retailer", "RT");
         actors[5] = new Actor(aclAddress, "Consumer", "CU");
@@ -229,4 +229,6 @@ contract ActorsManager is FunctionsClient {
 
         delete lastValidationRequest[requestId];
     }
+
+
 }
