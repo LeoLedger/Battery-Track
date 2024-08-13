@@ -93,9 +93,9 @@ contract BatchManager is FunctionsClient {
 
     /**
     * @dev Sets the ACL and determines the hash AUTHORIZED_CONTRACT_ROLE.
-    * Along with the Chainlink Configuration 
+    * Along with the Chainlink Configuration  &  the address of the `SupplyChain` contract.
     */
-    constructor(address aclAddress, bytes32 _donId, address _donRouter, uint64 _donSubscriptionId)
+    constructor(address aclAddress, address _supplyChainContract, bytes32 _donId, address _donRouter, uint64 _donSubscriptionId)
         FunctionsClient(_donRouter)
     {
         batches = new Batch(aclAddress, "Batch", "B");
@@ -107,6 +107,7 @@ contract BatchManager is FunctionsClient {
         AUTHORIZED_CONTRACT_ROLE = acl.AUTHORIZED_CONTRACT_ROLE();
         ADMIN_ROLE = acl.ADMIN_ROLE();
 
+        supplyChainContract = _supplyChainContract; 
     }
 
     /**
@@ -263,14 +264,6 @@ contract BatchManager is FunctionsClient {
     }
 
     /**
-    * @dev A guarded function to change the `SupplyChain` contract address.
-    * @param _supplyChainAddress new `SupplyChain` contract address.
-    */
-    function setSupplyChainAddress(address _supplyChainAddress) public onlyAdminRole {
-        supplyChainContract = _supplyChainAddress;
-    }
-
-    /**
     * @dev A guarded function to update the on-chain batch state, to be called by the `SupplyChain` contract.
     * @param _batchId batch ID to set the batch for.
     * @param batch new batch info itself.
@@ -317,4 +310,14 @@ contract BatchManager is FunctionsClient {
     {
         return batchInfoForId[_batchId].rawMaterialSupplierId;
     }
+
+    
+    /**
+    * @dev A guarded function to change the `SupplyChain` contract address.
+    * @param _supplyChainAddress new `SupplyChain` contract address.
+    */
+    function setSupplyChainAddress(address _supplyChainAddress) public onlyAdminRole {
+        supplyChainContract = _supplyChainAddress;
+    }
+
 }
