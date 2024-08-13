@@ -106,7 +106,7 @@ contract SupplyChain {
     /**
     * @dev To add a newly harvested batch. Creates a new instance of the batch & validates the metadata.
     * @param rawProcessorId ID of the Harvester of the batch.
-    * @param The hash of the harvested batch.
+    * @param hash hash of the harvested batch.
     */
     function addHarvestedBatch(uint256 rawProcessorId, string calldata hash) public onlyCompanyUser {
         batchManager.createBatch(rawProcessorId, hash, this.performBatchCreation.selector);
@@ -136,7 +136,7 @@ contract SupplyChain {
 
     /**
     * @dev To retrieve all the batches of a particular processor.
-    * @param The processor ID to retrieve the batches for.
+    * @param processorId processor ID to retrieve the batches for.
     * @return The IDs of the batches the processor ever processed.
     */
     function getBatchesProcessed(uint256 processorId) public view returns (uint256[] memory) {
@@ -170,5 +170,11 @@ contract SupplyChain {
         return retailers[retailerId].batchIds.values();
     }
 
-
+    /**
+    * @dev To interface with ERC721 & receive the batch DNFTs.
+    */
+    function onERC721Received(address, address, uint256, bytes calldata) external view returns(bytes4) {
+        if(msg.sender == address(batchManager.batches())) return this.onERC721Received.selector;
+        return bytes4(0);
+    }
 }
