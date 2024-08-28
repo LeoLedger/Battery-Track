@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 import { IAccessControl } from "@openzeppelin/contracts/access/IAccessControl.sol";
 import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
 import { AccessControlEnumerable } from "@openzeppelin/contracts/access/extensions/AccessControlEnumerable.sol";
-import { Errors } from "./Errors.sol";
+import { Errors } from "./libraries/Errors.sol";
 
 contract AccessManager is AccessControl, AccessControlEnumerable {
     bytes32 public constant AUTHORIZED_CONTRACT_ROLE = keccak256("AUTHORIZED_CONTRACT_ROLE");
